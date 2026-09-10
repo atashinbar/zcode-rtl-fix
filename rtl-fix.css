@@ -1,0 +1,18 @@
+/* ===== ZCode RTL Fix (Farsi) — auto-injected =====
+   باعث می‌شود متن‌های فارسی در چت ZCode راست‌به‌چپ (RTL) نمایش داده شوند:
+   - هر پاراگراف جهتش را از اولین حرف قوی خودش می‌گیرد
+     (فارسی/عربی → راست‌به‌چپ و تراز از راست، انگلیسی/کد → چپ‌به‌راست)
+   - بلوک‌های کد (pre/code) دست‌نخورده می‌مانند
+   نسخه تأییدشده روی DOM زنده چت (group/assistant-row، group/user-row).
+   برای حذف، این بلوک را از index.html پاک کنید یا uninstall.sh را اجرا کنید. */
+
+/* ترتیب حروف: هر پاراگراف مستقل جهت‌گیری می‌شود */
+p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, figcaption, dd, dt, summary {
+  unicode-bidi: plaintext !important;
+}
+/* تراز: start با جهتِ هر پاراگراف حل می‌شود (فارسی → راست) */
+p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, figcaption, dd, dt, summary {
+  text-align: start;
+}
+/* توجه: textarea / input / contenteditable (ادیتور Lexical چت) عمداً استثنا شده‌اند —
+   ادیتور چت جهت را خودش مدیریت می‌کند و دخالت CSS باعث رفتار غلط می‌شد. */
