@@ -23,6 +23,7 @@ ZCode Desktop جهت پایه‌ی همه‌ی پیام‌ها را LTR فرض �
 
 ![تشخیص هوشمند جهت آیتم‌های لیست](docs/smart-lists.png)
 - بلوک‌های کد (`pre`/`code`) و چیدمان فلکس/گرید دست‌نخورده می‌مانند
+- متن‌های فارسی با **فونت وزیرمتن (Vazirmatn)** نمایش داده می‌شوند — فونت داخل پچ embed شده و نیازی به نصب فونت نیست (انگلیسی با فونت پیش‌فرض سیستم می‌ماند)
 - **فیلد تایپ چت دست نمی‌خورد** — ادیتور Lexical جهت را خودش مدیریت می‌کند
 - پیام‌های استریم‌شده (موقع تولید) همان لحظه پوشش داده می‌شوند
 
@@ -89,6 +90,7 @@ Injects a small stylesheet + script into ZCode's renderer files (inside `app.asa
 - Every paragraph picks its direction from its own content (Persian → RTL & right-aligned, English → LTR untouched)
 - List items / paragraphs that *start* with a Latin word or inline code but are mostly Persian are smart-detected as RTL (Arabic vs Latin letter counting)
 - Code blocks (`pre`/`code`) and flex/grid layouts are never touched
+- Persian text renders in the **Vazirmatn** font — embedded in the patch, no font installation needed (English keeps the system default font)
 - The chat **composer is deliberately left alone** (Lexical manages its own direction)
 - Streaming messages are handled live via a MutationObserver
 
@@ -133,3 +135,8 @@ Updates replace the whole app (wiping the patch — nothing breaks). Re-run `ins
 ## License
 
 [MIT](LICENSE)
+
+## Credits
+
+- [Vazirmatn](https://github.com/rastikerdar/vazirmatn) font by Saber Rastikerdar — [SIL OFL 1.1](https://openfontlicense.org/open-font-license-official-text/) (embedded)
+

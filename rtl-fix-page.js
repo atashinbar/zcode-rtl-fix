@@ -28,6 +28,11 @@
     if (inCode(el)) return;
     if (!okDisplay(el)) return;
     el.setAttribute('dir', 'auto');
+    // اگر محتوای این بلوک متنی غالباً فارسی است، برای فونت وزیرمتن تگ بزن
+    var txt = el.textContent || '';
+    if (countMatches(txt, RTL_RE) > 0 && countMatches(txt, RTL_RE) >= countMatches(txt, LATIN_RE)) {
+      el.setAttribute('data-zcode-rtl', '1');
+    }
   }
 
   // --- تشخیص غالب بودن فارسی برای عناصر متنی p/li/h* و مانند آن ---
