@@ -135,14 +135,13 @@ echo "==> [6/8] Repacking app.asar (native modules stay unpacked)"
 
 echo "==> [7/8] Verifying new archive"
 UNP="$WORK/app.asar.new.unpacked"
-for f in \
-  "node_modules/node-pty/prebuilds/darwin-arm64/pty.node" \
-  "node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper" \
-  "node_modules/ssh2/lib/protocol/crypto/build/Release/sshcrypto.node"; do
-  [ -f "$UNP/$f" ] || { echo "ERROR: expected unpacked file missing: $f"; exit 1; }
-done
-[ -x "$UNP/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper" ] || {
-  echo "ERROR: spawn-helper lost its executable bit"; exit 1; }
+# فایل‌های unpacked را پویا بررسی کن — فقط «وجود»، نه مجوزها
+# (مجوزها عمداً از بسته‌ی رسمی منعکس می‌شوند؛ بعضی نسخه‌های ZCode خودشان
+# spawn-helper را بدون بیت اجرایی منتشر می‌کنند و اپ درست کار می‌کند)
+while IFS= read -r -d '' f; do
+  rel="${f#"$RES/app.asar.unpacked/"}"
+  [ -f "$UNP/$rel" ] || { echo "ERROR: expected unpacked file missing after repack: $rel"; exit 1; }
+done < <(find "$RES/app.asar.unpacked" -type f -print0)
 mkdir -p "$WORK/verify"
 (cd "$WORK/verify" && "${ASAR_BIN[@]}" extract-file "$WORK/app.asar.new" out/renderer/index.html \
   && "${ASAR_BIN[@]}" extract-file "$WORK/app.asar.new" out/preload/codingPlanWebview.cjs)
