@@ -9,6 +9,12 @@ set -euo pipefail
 # در محیط LaunchAgent مسیر npx نیست؛ مسیرهای رایج Node را اضافه کن
 export PATH="$PATH:$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin"
 
+# اگر با دسترسی ادمین اجرا شد (نصب از طرف واچر)، HOME کاربر واقعی را نگه دار
+if [ "$(id -u)" = "0" ] && [ -n "${ZCODE_RTL_OWNER:-}" ] && [ "${ZCODE_RTL_OWNER}" != "root" ]; then
+  REAL_HOME=$(dscl . -read "/Users/${ZCODE_RTL_OWNER}" NFSHomeDirectory 2>/dev/null | awk '{print $2}')
+  [ -n "$REAL_HOME" ] && export HOME="$REAL_HOME"
+fi
+
 APP="/Applications/ZCode.app"
 RES="$APP/Contents/Resources"
 ASAR="$RES/app.asar"
@@ -153,6 +159,10 @@ echo "==> [8/8] Installing"
 # فایل‌های unpacked قبلی سر جای خودشان می‌مانند (محتوایشان تغییری نکرده)
 cp -R "$UNP/." "$RES/app.asar.unpacked/"
 mv "$WORK/app.asar.new" "$ASAR"
+# در اجرای ادمینی، مالکیت فایل‌ها را به کاربر برگردان تا اجراهای بعدی کاربر کار کنند
+if [ "$(id -u)" = "0" ] && [ -n "${ZCODE_RTL_OWNER:-}" ] && [ "${ZCODE_RTL_OWNER}" != "root" ]; then
+  chown -R "$ZCODE_RTL_OWNER" "$BACKUP_DIR" "$RES/app.asar.unpacked" "$ASAR" 2>/dev/null || true
+fi
 echo "OK — patch installed."
 echo ""
 echo "حالا ZCode را کامل ببندید (Cmd+Q) و دوباره باز کنید تا اثر پچ را ببینید."

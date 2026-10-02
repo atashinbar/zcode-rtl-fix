@@ -10,7 +10,7 @@ mkdir -p "$STAGE"
 
 cp "$SRC_DIR/install.sh" "$SRC_DIR/uninstall.sh" "$STAGE/"
 cp "$SRC_DIR/rtl-fix.css" "$SRC_DIR/rtl-fix-page.js" "$SRC_DIR/rtl-fix-preload.js" "$STAGE/"
-cp "$SRC_DIR/enable-auto-reapply.sh" "$SRC_DIR/disable-auto-reapply.sh" "$STAGE/"
+cp "$SRC_DIR/enable-auto-reapply.sh" "$SRC_DIR/disable-auto-reapply.sh" "$SRC_DIR/rtl-watch.sh" "$STAGE/"
 cp "$SRC_DIR/README.fa.md" "$STAGE/"
 chmod +x "$STAGE"/*.sh
 
@@ -59,7 +59,7 @@ OUT="$DIST/ZCode-RTL-Fix-Installer.command"
   echo 'set -euo pipefail'
   echo 'DEST="$HOME/zcode-rtl-patch"'
   echo 'mkdir -p "$DEST"'
-  for f in install.sh uninstall.sh rtl-fix.css rtl-fix-page.js rtl-fix-preload.js enable-auto-reapply.sh disable-auto-reapply.sh; do
+  for f in install.sh uninstall.sh rtl-fix.css rtl-fix-page.js rtl-fix-preload.js enable-auto-reapply.sh disable-auto-reapply.sh rtl-watch.sh; do
     echo "cat > \"\$DEST/$f\" <<'ZCODE_RTL_FILE_EOF'"
     cat "$SRC_DIR/$f"
     echo "ZCODE_RTL_FILE_EOF"

@@ -23,8 +23,7 @@ cat > "$PLIST" <<EOF
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>${INSTALL_SH}</string>
-        <string>--if-needed</string>
+        <string>${SCRIPT_DIR}/rtl-watch.sh</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
