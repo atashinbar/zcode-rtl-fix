@@ -19,6 +19,16 @@ fi
 
 echo "$(ts) silent install failed (likely App Management/TCC): $(echo "$OUT" | tail -1)" >> "$LOG"
 
+# ۱.۵) اپ کمکی: اگر ساخته شده و مجوز App Management گرفته باشد، بی‌صدا نصب می‌کند
+HELPER="$HOME/Applications/ZCode RTL Reapply.app/Contents/MacOS/ZCode RTL Reapply"
+if [ -x "$HELPER" ]; then
+  if "$HELPER"; then
+    echo "$(ts) helper-app install OK" >> "$LOG"
+    exit 0
+  fi
+  echo "$(ts) helper-app failed too (no App Management grant?)" >> "$LOG"
+fi
+
 # حداکثر یک بار در ۲۴ ساعت دیالوگ نشان بده
 NOW=$(date +%s)
 if [ -f "$STAMP" ]; then
